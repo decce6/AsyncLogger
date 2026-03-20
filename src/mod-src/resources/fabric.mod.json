@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "${modid}",
+  "version": "${mod_version_full}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "decce"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/${modid}",
+    "sources": "https://github.com/decce6/${modid}",
+    "issues": "https://github.com/decce6/${modid}/issues"
+  },
+  "license": "${mod_license}",
+  "icon": "${modid}.png",
+  "entrypoints": {
+    "preLaunch": [
+      "me.decce.${modid}.service.fabric.FabricPreLaunchEntrypoint"
+    ],
+    "main": [
+      "me.decce.${modid}.fabric.FabricEntrypoint"
+    ]
+  },
+  "depends": {
+    "minecraft": "${minecraft_supported_fabric}",
+    "fabricloader": ">=0.16.0"
+  }
+}

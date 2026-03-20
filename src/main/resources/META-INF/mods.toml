@@ -1,0 +1,24 @@
+# This file is included only for launchers to display mod metadata. It is not read by Forge in production.
+modLoader = "javafml"
+loaderVersion = "[2,)"
+issueTrackerURL = "https://github.com/decce6/${modid}/issues"
+license = "${mod_license}"
+
+[[mods]]
+modId = "${modid}"
+version = "${mod_version_full}"
+displayName = "${mod_name}"
+displayURL = "https://modrinth.com/mod/${modid}"
+logoFile="${modid}.png"
+description = '''${mod_description}'''
+authors = "decce"
+
+[[dependencies.${modid}]]
+modId = "minecraft"
+versionRange = "${minecraft_supported_forge}"
+mandatory = true
+
+[[dependencies.${modid}]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_version_range}"
