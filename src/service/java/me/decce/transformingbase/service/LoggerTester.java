@@ -9,6 +9,7 @@ import java.util.List;
 public class LoggerTester {
     public static List<Result> testAll() {
         var logger = LogManager.getLogger("Test Logger");
+        logger.info("Starting Test");
         return List.of(testString(logger), testPlaceholder(logger), testThrowable(logger));
     }
 
