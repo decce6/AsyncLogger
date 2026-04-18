@@ -2,7 +2,8 @@ package me.decce.transformingbase.service.forge;
 
 //? if forge {
 /*import me.decce.transformingbase.constants.Constants;
-import net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator;
+import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileModProvider;
+import net.minecraftforge.forgespi.locating.IDependencyLocator;
 import net.minecraftforge.forgespi.locating.IModFile;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ForgeDependencyLocator extends JarInJarDependencyLocator {
+public class ForgeDependencyLocator extends AbstractJarFileModProvider implements IDependencyLocator {
     @Override
     public List<IModFile> scanMods(Iterable<IModFile> loadedMods) {
         List<IModFile> mods = new ArrayList<>();
@@ -42,6 +43,11 @@ public class ForgeDependencyLocator extends JarInJarDependencyLocator {
     @Override
     public String name() {
         return Constants.MOD_ID;
+    }
+
+    @Override
+    public void initArguments(Map<String, ?> arguments) {
+
     }
 }
 *///?}
