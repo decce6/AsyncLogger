@@ -11,7 +11,7 @@ public class AsyncLoggerConfig {
     public boolean enabled = true;
     @Comment("Specifies the value for log4j2.asyncLoggerRingBufferSize (0 = use mod default, -1 = use log4j2 default)")
     public int ringBufferSize = 0;
-    @Comment("Specifies the value for log4j2.asyncLoggerRingBufferSize (leave empty for default)")
+    @Comment("Specifies the value for log4j2.asyncLoggerWaitStrategy (leave empty for default)")
     public String waitStrategy = "";
     @Comment("Specifies the value for log4j2.asyncLoggerSynchronizeEnqueueWhenQueueFull (leave empty for default)")
     public String synchronizeEnqueueWhenQueueFull = "";
