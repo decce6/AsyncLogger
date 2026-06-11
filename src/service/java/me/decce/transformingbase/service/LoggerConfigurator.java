@@ -28,6 +28,12 @@ public class LoggerConfigurator {
         if (!config.formatMsgAsync.isEmpty()) {
             System.setProperty("log4j2.formatMsgAsync", config.formatMsgAsync);
         }
+        if (!config.asyncQueueFullPolicy.isEmpty()) {
+            System.setProperty("log4j2.asyncQueueFullPolicy", config.asyncQueueFullPolicy);
+        }
+        if (!config.discardThreshold.isEmpty()) {
+            System.setProperty("log4j2.discardThreshold", config.discardThreshold);
+        }
     }
 
     static void configure() {
