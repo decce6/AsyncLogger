@@ -1,6 +1,6 @@
 package me.decce.transformingbase.service.forge;
 
-//? if forge {
+//? if forge && >=1.20.1 {
 /*import me.decce.transformingbase.constants.Constants;
 import me.decce.transformingbase.service.Bootstrapper;
 import net.minecraftforge.fml.loading.ImmediateWindowProvider;

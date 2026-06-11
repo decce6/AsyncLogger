@@ -26,6 +26,13 @@ public class ForgeTransformationService implements ITransformationService {
     ^///?}
     }
 
+    //? <=1.16.5 {
+    /^@Override
+    public void beginScanning(IEnvironment environment) {
+
+    }
+    ^///?}
+
     @Override
     public void onLoad(IEnvironment env, Set<String> otherServices) throws IncompatibleEnvironmentException {
 
