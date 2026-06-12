@@ -1,7 +1,7 @@
 ## 1.1.3
 
 - Added settings for `asyncQueueFullPolicy` and `discardThreshold`
-- Backported to 1.19.2, 1.18.2 and 1.16.5
+- Backported to 1.19.2 and 1.18.2
 
 ## 1.1.2
 
