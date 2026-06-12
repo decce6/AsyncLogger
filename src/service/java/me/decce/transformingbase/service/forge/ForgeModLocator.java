@@ -1,7 +1,8 @@
 package me.decce.transformingbase.service.forge;
 
-//? if forge && <=1.18.2 {
-/*import me.decce.transformingbase.constants.Constants;
+//? if forge {
+/*//? if <=1.18.2 {
+/^import me.decce.transformingbase.constants.Constants;
 import net.minecraftforge.forgespi.locating.IModFile;
 
 import java.io.IOException;
@@ -17,28 +18,28 @@ import java.util.List;
 import java.util.Map;
 
 //? if 1.18.2 {
-/^import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileDependencyLocator;
-^///?} else {
+/^¹import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileDependencyLocator;
+¹^///?} else {
 import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileLocator;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.fml.loading.moddiscovery.ModFileParser;
 //?}
 
 //? if 1.18.2 {
-/^public class ForgeModLocator extends AbstractJarFileDependencyLocator {
-^///?} else {
+/^¹public class ForgeModLocator extends AbstractJarFileDependencyLocator {
+¹^///?} else {
 public class ForgeModLocator extends AbstractJarFileLocator {
  //?}
     @Override
     public List<IModFile> scanMods(
             //? 1.18.2
-            /^Iterable<IModFile> loadedMods^/
+            /^¹Iterable<IModFile> loadedMods¹^/
     ) {
         List<IModFile> mods = new ArrayList<>();
         try {
             //? 1.18.2 {
-            /^mods.add(createMod(getJarInJar()).get());
-            ^///?} else {
+            /^¹mods.add(createMod(getJarInJar()).get());
+            ¹^///?} else {
             var modFile = new ModFile(getJarInJar(), this, ModFileParser::modsTomlParser);
             this.modJars.put(modFile, createFileSystem(modFile));
             mods.add(modFile);
@@ -69,4 +70,42 @@ public class ForgeModLocator extends AbstractJarFileLocator {
 
     }
 }
+^///?} else {
+
+import me.decce.transformingbase.constants.Constants;
+import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.forgespi.locating.IModLocator;
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+
+public class ForgeModLocator implements IModLocator {
+    @Override
+    public List<ModFileOrException> scanMods() {
+        return List.of();
+    }
+
+    @Override
+    public String name() {
+        return Constants.MOD_ID;
+    }
+
+    @Override
+    public void scanFile(IModFile modFile, Consumer<Path> pathConsumer) {
+
+    }
+
+    @Override
+    public void initArguments(Map<String, ?> arguments) {
+
+    }
+
+    @Override
+    public boolean isValid(IModFile modFile) {
+        return false;
+    }
+}
+//?}
 *///?}
