@@ -1,6 +1,6 @@
 package me.decce.transformingbase.service.forge;
 
-//? if forge && >=1.20.1 {
+//? if forge && >=1.19.2 {
 /*import me.decce.transformingbase.constants.Constants;
 import net.minecraftforge.fml.loading.moddiscovery.AbstractJarFileModProvider;
 import net.minecraftforge.forgespi.locating.IDependencyLocator;
