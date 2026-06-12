@@ -1,3 +1,7 @@
+## 1.1.4
+
+Fixed a crash at startup on 1.19.2 Forge.
+
 ## 1.1.3
 
 - Added settings for `asyncQueueFullPolicy` and `discardThreshold`
