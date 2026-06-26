@@ -22,6 +22,9 @@
       "me.decce.${modid}.fabric.FabricEntrypoint"
     ]
   },
+  "languageAdapters": {
+    "${modid}": "me.decce.${modid}.service.fabric.FabricLanguageAdapter"
+  },
   "depends": {
     "minecraft": "${minecraft_supported_fabric}",
     "fabricloader": ">=0.16.0"
