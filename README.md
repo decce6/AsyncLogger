@@ -14,6 +14,12 @@ This can be especially useful when large amounts of messages are being logged an
 
 You can do these tests yourself by enabling `testPerformance` in the config. When this option is enabled, the mod will log a large number of messages both before and after setting up async loggers. You can see the test results in the log.
 
+## Filtering
+
+Starting from version 2.0.0, AsyncLogger supports log filtering. The filtering happens on the dedicated, async logger thread, ensuring there is no overhead for the caller.
+
+To use, simply set `filtering.enabled` to `true` in the config, and edit one or more of the filters. Filtering by logger name, level, and message (match substring or regexps) is supported.
+
 ## Technical Details
 
 - [Asynchronous loggers](https://logging.apache.org/log4j/2.x/manual/async.html) are used, in favor of Asynchronous appenders. The former is newer, faster and lighter on allocation rate.
