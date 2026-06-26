@@ -19,4 +19,4 @@ public class FabricLanguageAdapter implements LanguageAdapter {
         throw new RuntimeException();
     }
 }
-//? }
+//?}

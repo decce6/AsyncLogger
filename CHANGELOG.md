@@ -1,3 +1,11 @@
+## 2.0.0
+
+- Implemented asynchronous, efficient filtering
+  - Filter by level, logger name, and message (match substring or regexps)
+  - Filtering happens on the dedicated, async logging thread - no overhead on the caller thread
+  - Can also optionally apply filters to `System#out` and `System#err`
+- Added option to disable debug logging on Forge/NeoForge
+
 ## 1.1.4
 
 Fixed a crash at startup on 1.19.2 Forge.
