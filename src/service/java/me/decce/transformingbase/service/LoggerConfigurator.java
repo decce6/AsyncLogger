@@ -45,6 +45,9 @@ public class LoggerConfigurator {
         if (test) {
             before = LoggerTester.testAll();
         }
+
+        configureDebugLog();
+
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
         if (AsyncLogger.config.filtering) {
@@ -61,6 +64,9 @@ public class LoggerConfigurator {
         if (AsyncLogger.config.wrapSysOutSysErr) {
             configureSysOutErr();
         }
+
+        configureDebugLog();
+
         var logger = LogManager.getLogger(Constants.MOD_NAME);
         logger.info("Successfully configured async logger context with [wrapSysOutSysErr={}, filtering.enabled={}, filtering.global={}]", AsyncLogger.config.wrapSysOutSysErr, AsyncLogger.config.filtering, AsyncLogger.config.filterGlobal);
 
@@ -74,6 +80,13 @@ public class LoggerConfigurator {
             for (var result : after) {
                 logger.info("{}: {}ms", result.item(), result.elapsedTimeInMs());
             }
+        }
+    }
+
+    private static void configureDebugLog() {
+        if (AsyncLogger.config.noDebugLog) {
+            var configuration = LoggerContext.getContext(false).getConfiguration();
+            configuration.getRootLogger().removeAppender("DebugFile");
         }
     }
 

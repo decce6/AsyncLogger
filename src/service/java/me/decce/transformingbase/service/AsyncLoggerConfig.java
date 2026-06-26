@@ -24,6 +24,8 @@ public class AsyncLoggerConfig {
     public String discardThreshold = "";
     @Comment("Specifies whether System.out and System.err should be redirected to the logger")
     public boolean wrapSysOutSysErr = false;
+    @Comment("Forge/NeoForge-only: disables writing to `debug.log`")
+    public boolean noDebugLog = false;
     @Comment("When enabled, compares logging performance without and with AsyncLogger, and logs the test results. Will cause a mass amount of messages to be printed at startup.")
     public boolean testPerformance = false;
     @Comment("Specifies whether to enable filtering for logs.\n" +
