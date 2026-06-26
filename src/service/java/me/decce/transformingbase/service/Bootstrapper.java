@@ -1,9 +1,13 @@
 package me.decce.transformingbase.service;
 
+import me.decce.transformingbase.constants.Constants;
+import me.decce.transformingbase.util.ClassLoaderHelper;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Bootstrapper {
     private static boolean bootstrapped;
+    private static boolean skippedDisruptorLoading;
 
     public static void bootstrap() {
         if (bootstrapped) {
@@ -14,7 +18,11 @@ public class Bootstrapper {
         try (var classLoaderHandler = new ClassLoaderHandlerImpl(Logger.class.getClassLoader(), Bootstrapper.class.getClassLoader())) {
             //? if !fabric {
             /*classLoaderHandler.expandModuleReads(Logger.class.getModule(), org.apache.logging.log4j.core.Logger.class.getModule());
-            classLoaderHandler.loadCoreClasses(Bootstrapper.class, "/com/lmax");
+            if (ClassLoaderHelper.isClassLoaded(classLoaderHandler.targetClassLoader, "com.lmax.disruptor.RingBuffer")) {
+                skippedDisruptorLoading = true;
+            } else {
+                classLoaderHandler.loadCoreClasses(Bootstrapper.class, "/com/lmax");
+            }
             classLoaderHandler.removeModClassesFromServiceLayer("com.lmax");
              *///?}
         }
@@ -26,6 +34,10 @@ public class Bootstrapper {
                 AsyncLogger.compileFilters();
             }
             LoggerConfigurator.configure();
+        }
+
+        if (skippedDisruptorLoading) {
+            LogManager.getLogger(Constants.MOD_ID).info("Note: skipped loading disruptor because it was already present on classpath");
         }
     }
 

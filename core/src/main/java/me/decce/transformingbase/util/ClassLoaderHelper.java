@@ -19,4 +19,13 @@ public class ClassLoaderHelper {
     public static Class<?> defineClass(ClassLoader classLoader, String name, byte[] bytes) throws Throwable {
         return (Class<?>) DEFINE_CLASS.invoke(classLoader, name, bytes, 0, bytes.length);
     }
+
+    public static boolean isClassLoaded(ClassLoader classLoader, String name) {
+        try {
+            Class.forName(name, false, classLoader);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 }
