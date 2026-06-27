@@ -5,6 +5,7 @@ import me.decce.transformingbase.service.sysout.FilteringPrintStream;
 import me.decce.transformingbase.service.sysout.RedirectingPrintStream;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class LoggerConfigurator {
@@ -54,11 +56,19 @@ public class LoggerConfigurator {
         // async logger factory. Therefore, we configure both the original root logger and the async one.
         // An example of what this fixes is the "Exiting event polling thread" message from Ixeris.
         configureRootLogger();
+        var originalAppenders = List.copyOf(getRootLogger().getAppenderRefs());
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
 
         configureRootLogger();
+
+        var configuration = LoggerContext.getContext(false).getConfiguration();
+        for (var appender : originalAppenders) {
+            if (!getRootLogger().getAppenders().containsKey(appender.getRef())) {
+                getRootLogger().addAppender(configuration.getAppender(appender.getRef()), appender.getLevel(), appender.getFilter());
+            }
+        }
 
         configureSysOutErr();
 
@@ -78,8 +88,12 @@ public class LoggerConfigurator {
         }
     }
 
+    private static LoggerConfig getRootLogger() {
+        return LoggerContext.getContext(false).getConfiguration().getRootLogger();
+    }
+
     private static void configureRootLogger() {
-        var root = LoggerContext.getContext(false).getConfiguration().getRootLogger();
+        var root = getRootLogger();
         configureDebugLog(root);
         configureFilter();
     }
