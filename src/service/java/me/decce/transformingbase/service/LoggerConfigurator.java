@@ -56,7 +56,7 @@ public class LoggerConfigurator {
         // async logger factory. Therefore, we configure both the original root logger and the async one.
         // An example of what this fixes is the "Exiting event polling thread" message from Ixeris.
         configureRootLogger();
-        var originalAppenders = List.copyOf(getRootLogger().getAppenderRefs());
+        var originalAppenders = Map.copyOf(getRootLogger().getAppenders());
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
@@ -64,9 +64,15 @@ public class LoggerConfigurator {
         configureRootLogger();
 
         var configuration = LoggerContext.getContext(false).getConfiguration();
-        for (var appender : originalAppenders) {
-            if (!getRootLogger().getAppenders().containsKey(appender.getRef())) {
-                getRootLogger().addAppender(configuration.getAppender(appender.getRef()), appender.getLevel(), appender.getFilter());
+        for (var entry : originalAppenders.entrySet()) {
+            if (!getRootLogger().getAppenders().containsKey(entry.getKey())) {
+                if (configuration.getAppender(entry.getKey()) == null) {
+                    configuration.addAppender(entry.getValue());
+                }
+                if (!entry.getValue().isStarted()) {
+                    entry.getValue().start();
+                }
+                getRootLogger().addAppender(entry.getValue(), Level.ALL, null);
             }
         }
 
