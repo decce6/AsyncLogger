@@ -57,6 +57,7 @@ public class LoggerConfigurator {
         // An example of what this fixes is the "Exiting event polling thread" message from Ixeris.
         configureRootLogger();
         var originalAppenders = Map.copyOf(getRootLogger().getAppenders());
+        var originalAppenderRefs = getRootLogger().getAppenderRefs();
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
@@ -72,7 +73,16 @@ public class LoggerConfigurator {
                 if (!entry.getValue().isStarted()) {
                     entry.getValue().start();
                 }
-                getRootLogger().addAppender(entry.getValue(), Level.ALL, null);
+                var level = Level.ALL;
+                var filter = (org.apache.logging.log4j.core.Filter) null;
+                for (var ref : originalAppenderRefs) {
+                    if (ref.getRef().equals(entry.getKey())) {
+                        level = ref.getLevel() != null ? ref.getLevel() : Level.ALL;
+                        filter = ref.getFilter();
+                        break;
+                    }
+                }
+                getRootLogger().addAppender(entry.getValue(), level, filter);
             }
         }
 
