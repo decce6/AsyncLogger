@@ -136,11 +136,15 @@ public class LoggerConfigurator {
 
     private static void configureSysOutErr() {
         if (AsyncLogger.config.wrapSysOutSysErr) {
-            System.setOut(new RedirectingPrintStream("STDOUT", System.out));
-            System.setErr(new RedirectingPrintStream("STDERR", System.err));
+            if (!(System.out instanceof RedirectingPrintStream)) {
+                System.setOut(new RedirectingPrintStream("STDOUT", System.out));
+                System.setErr(new RedirectingPrintStream("STDERR", System.err));
+            }
         } else if (AsyncLogger.config.filtering && AsyncLogger.config.filterSysOut) {
-            System.setOut(new FilteringPrintStream(System.out, AsyncLogger.filteringInfo, Level.INFO));
-            System.setErr(new FilteringPrintStream(System.err, AsyncLogger.filteringInfo, Level.ERROR));
+            if (!(System.out instanceof FilteringPrintStream)) {
+                System.setOut(new FilteringPrintStream(System.out, AsyncLogger.filteringInfo, Level.INFO));
+                System.setErr(new FilteringPrintStream(System.err, AsyncLogger.filteringInfo, Level.ERROR));
+            }
         }
     }
 }
