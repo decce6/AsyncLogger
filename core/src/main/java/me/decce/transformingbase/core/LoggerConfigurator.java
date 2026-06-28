@@ -5,6 +5,8 @@ import me.decce.transformingbase.core.sysout.FilteringPrintStream;
 import me.decce.transformingbase.core.sysout.RedirectingPrintStream;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector;
@@ -12,6 +14,7 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 
 import java.util.List;
+import java.util.Map;
 
 public class LoggerConfigurator {
     static {
@@ -53,11 +56,31 @@ public class LoggerConfigurator {
         // async logger factory. Therefore, we configure both the original root logger and the async one.
         // An example of what this fixes is the "Exiting event polling thread" message from Ixeris.
         configureRootLogger();
+        var configuration = LoggerContext.getContext(false).getConfiguration();
+        var originalRoot = configuration.getRootLogger();
+        var originalAppenders = Map.copyOf(originalRoot.getAppenders());
+        var originalAppenderRefs = List.copyOf(originalRoot.getAppenderRefs());
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
 
         configureRootLogger();
+
+        var root = configuration.getRootLogger();
+        for (var entry : originalAppenders.entrySet()) {
+            if (!root.getAppenders().containsKey(entry.getKey())) {
+                var level = Level.ALL;
+                var filter = (Filter) null;
+                for (var ref : originalAppenderRefs) {
+                    if (ref.getRef().equals(entry.getKey())) {
+                        level = ref.getLevel() != null ? ref.getLevel() : Level.ALL;
+                        filter = ref.getFilter();
+                        break;
+                    }
+                }
+                root.addAppender(entry.getValue(), level, filter);
+            }
+        }
 
         configureSysOutErr();
 
