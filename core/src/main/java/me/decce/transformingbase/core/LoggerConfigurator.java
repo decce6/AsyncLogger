@@ -57,7 +57,7 @@ public class LoggerConfigurator {
         // An example of what this fixes is the "Exiting event polling thread" message from Ixeris.
         configureRootLogger();
         var configuration = LoggerContext.getContext(false).getConfiguration();
-        var originalRoot = LoggerContext.getContext(false).getConfiguration().getRootLogger();
+        var originalRoot = configuration.getRootLogger();
         var originalAppenders = Map.copyOf(originalRoot.getAppenders());
         var originalAppenderRefs = List.copyOf(originalRoot.getAppenderRefs());
 
