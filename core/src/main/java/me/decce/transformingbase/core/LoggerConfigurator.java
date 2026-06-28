@@ -69,7 +69,6 @@ public class LoggerConfigurator {
         var root = configuration.getRootLogger();
         for (var entry : originalAppenders.entrySet()) {
             if (!root.getAppenders().containsKey(entry.getKey())) {
-                configuration.addAppender(entry.getValue());
                 var level = Level.ALL;
                 var filter = (Filter) null;
                 for (var ref : originalAppenderRefs) {
