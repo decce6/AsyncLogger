@@ -1,3 +1,14 @@
+## 2.1.0
+
+- Fixed mod not working on 1.21.1 NeoForge
+- Improved compatibility with mods that register appenders early
+- Improved dedicated server support
+  - Note on side requirement: this mod does not have strict side requirement. You can install it on the client side without it being present on the server, and vice versa. It will function on the side it is installed on.
+- Added ability to collect extra filters from `config/asynclogger/*.toml`
+  - By writing filters there, you can format your filters as you like and add comments
+  - Adding filters in the main config file remain supported
+- Improved `noDebugLog` option by deleting existing `debug.log` on logger configuration
+
 ## 2.0.1
 
 - Fixed `java.nio.file.ProviderNotFoundException: Provider "jar" not found` crashes with specific mods.
