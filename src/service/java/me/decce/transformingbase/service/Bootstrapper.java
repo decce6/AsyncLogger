@@ -48,5 +48,8 @@ public class Bootstrapper {
     private static void initConfig() {
         AsyncLogger.config = ConfigLoader.load();
         ConfigLoader.save(AsyncLogger.config);
+        // Note: load the extras *after* saving the main config to prevent the extra filters from being written to the main config
+        // Ideally we should have a separate runtime config object
+        ConfigLoader.loadExtras(AsyncLogger.config);
     }
 }

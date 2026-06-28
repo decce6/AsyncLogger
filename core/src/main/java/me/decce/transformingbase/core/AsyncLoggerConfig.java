@@ -40,7 +40,8 @@ public class AsyncLoggerConfig {
             "Note that if `wrapSysOutSysErr` is disabled, filtering would happen on the caller thread.")
     @Key("filtering.sysout")
     public boolean filterSysOut;
-    @Comment("The specified logging levels will be filtered out and not logged. Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL")
+    @Comment("Note: you can also add filters in `config/asynclogger/*.toml`. That way you can freely add comments and format them as you wish.\n" +
+            "The specified logging levels will be filtered out and not logged. Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL")
     @Key("filtering.levels")
     public List<String> levels = List.of();
     @Comment("Messages logged by loggers with the specified names will be filtered out and not logged.")

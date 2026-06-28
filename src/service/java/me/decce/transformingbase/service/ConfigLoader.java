@@ -13,24 +13,42 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 public class ConfigLoader {
+    private static final String DEFAULT_EXTRA_CONFIG =
+            """
+            # This is the default extra filter file for Async Logger. The filters in this file (and any other *.toml files in this directory) are combined with the filters in the main config.
+            # You can freely write comments and format this file as you wish - it will not get overwritten.
+            [filtering]
+            levels = []
+            loggers = []
+            strings = []
+            regexes = []
+            """;
     private static final Logger LOGGER = LogManager.getLogger(Constants.MOD_NAME);
     private static final Path CONFIG_PATH;
+    private static final Path CONFIG_EXTRA_PATH;
     private static final Path CONFIG_FILE;
 
     static {
         CONFIG_PATH = Paths.get("config");
+        CONFIG_EXTRA_PATH = Paths.get("config", "asynclogger");
         CONFIG_FILE = CONFIG_PATH.resolve(Constants.MOD_ID + ".toml");
         try {
             if (!Files.exists(CONFIG_PATH)) {
                 Files.createDirectories(CONFIG_PATH);
             }
+            if (!Files.exists(CONFIG_EXTRA_PATH)) {
+                Files.createDirectories(CONFIG_EXTRA_PATH);
+                Files.writeString(CONFIG_EXTRA_PATH.resolve("default.toml"), DEFAULT_EXTRA_CONFIG, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+            }
         } catch (IOException ignored) {}
     }
 
-    private static CommentedFileConfig makeNightConfig() {
-        return CommentedFileConfig.builder(CONFIG_FILE, TomlFormat.instance())
+    private static CommentedFileConfig makeNightConfig(Path file) {
+        return CommentedFileConfig.builder(file, TomlFormat.instance())
                 .preserveInsertionOrder()
                 .sync()
                 .build();
@@ -51,7 +69,7 @@ public class ConfigLoader {
     private static AsyncLoggerConfig loadConfig() {
         if (CONFIG_FILE.toFile().exists()) {
             try {
-                return fromNightConfig();
+                return fromNightConfig(CONFIG_FILE);
             } catch (Exception e) {
                 LOGGER.error("Failed to read configuration!", e);
             }
@@ -59,8 +77,39 @@ public class ConfigLoader {
         return new AsyncLoggerConfig();
     }
 
+    public static void loadExtras(AsyncLoggerConfig config) {
+        if (CONFIG_EXTRA_PATH.toFile().exists()) {
+            try {
+                try (var stream = Files.walk(CONFIG_EXTRA_PATH)) {
+                    stream.filter(Files::isRegularFile).filter(file -> file.toString().endsWith(".toml")).forEach(file -> {
+                        LOGGER.debug("Loaded extra filter {}", file.toString());
+                        readExtras(file, config);
+                    });
+                }
+            } catch (IOException e) {
+                LOGGER.error("Failed to load extra filters!", e);
+            }
+        }
+    }
+
+    private static void readExtras(Path file, AsyncLoggerConfig config) {
+        AsyncLoggerConfig extra = fromNightConfig(file);
+        combineLists(config.levels, extra.levels);
+        combineLists(config.loggers, extra.loggers);
+        combineLists(config.strings, extra.strings);
+        combineLists(config.regexes, extra.regexes);
+    }
+
+    private static <T> void combineLists(List<T> dest, List<T> source) {
+        for (T t : source) {
+            if (!dest.contains(t)) {
+                dest.add(t);
+            }
+        }
+    }
+
     private static CommentedFileConfig toNightConfig(AsyncLoggerConfig config) {
-        var night = makeNightConfig();
+        var night = makeNightConfig(CONFIG_FILE);
         try {
             for (Field field : AsyncLoggerConfig.class.getDeclaredFields()) {
                 var modifiers = field.getModifiers();
@@ -82,9 +131,9 @@ public class ConfigLoader {
         return night;
     }
 
-    private static AsyncLoggerConfig fromNightConfig() {
+    private static AsyncLoggerConfig fromNightConfig(Path file) {
         var config = new AsyncLoggerConfig();
-        try (var night = makeNightConfig()) {
+        try (var night = makeNightConfig(file)) {
             night.load();
             for (Field field : AsyncLoggerConfig.class.getDeclaredFields()) {
                 var modifiers = field.getModifiers();
