@@ -58,7 +58,7 @@ public class LoggerConfigurator {
         configureRootLogger();
         var originalRoot = LoggerContext.getContext(false).getConfiguration().getRootLogger();
         var originalAppenders = Map.copyOf(originalRoot.getAppenders());
-        var originalAppenderRefs = originalRoot.getAppenderRefs();
+        var originalAppenderRefs = List.copyOf(originalRoot.getAppenderRefs());
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
