@@ -26,7 +26,8 @@ public class AsyncLoggerConfig {
     public boolean wrapSysOutSysErr = false;
     @Comment("Forge/NeoForge-only: disables writing to `debug.log`")
     public boolean noDebugLog = false;
-    @Comment("When enabled, compares logging performance without and with AsyncLogger, and logs the test results. Will cause a mass amount of messages to be printed at startup.")
+    @Comment("When enabled, compares logging performance without and with AsyncLogger, and logs the test results. Will cause a mass amount of messages to be printed at startup.\n" +
+            "Note that if `noDebugLog` is enabled, any archived debug log (example: debug-1.log.gz) will be deleted.")
     public boolean testPerformance = false;
     @Comment("Specifies whether to enable filtering for logs.\n" +
             "Unless \"global\" is set to true, filtering happens on the dedicated async thread, with no overhead for the caller.")
