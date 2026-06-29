@@ -14,7 +14,9 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +130,14 @@ public class LoggerConfigurator {
                 // Attempt to delete the already-generated debug log file
                 // This prevents logs from building up and hence multiple archives of old debug logs being created
                 Files.delete(Paths.get("logs", "debug.log"));
+            } catch (IOException ignored) {}
+
+            // Delete debug log archives created by crash before AsyncLogger initializes
+            // Early crash still produce a debug log, which will archived when another early crash happens
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("logs"), "debug-*.log.gz")) {
+                for (Path file : stream) {
+                    Files.delete(file);
+                }
             } catch (IOException ignored) {}
         }
     }
