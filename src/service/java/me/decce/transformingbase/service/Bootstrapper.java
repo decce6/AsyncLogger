@@ -26,9 +26,14 @@ public class Bootstrapper {
                 classLoaderHandler.loadCoreClasses(Bootstrapper.class, "/com/lmax");
             }
             classLoaderHandler.removeModClassesFromServiceLayer("com.lmax");
-            classLoaderHandler.loadCoreClasses(Bootstrapper.class, Constants.CORE_PACKAGE_PATH);
-            classLoaderHandler.removeModClassesFromServiceLayer(Constants.CORE_PACKAGE);
              *///?}
+        }
+
+        try (var classLoaderHandler = new ClassLoaderHandlerImpl(Logger.class.getClassLoader(), Bootstrapper.class.getClassLoader())) {
+            //? if !fabric {
+            /*classLoaderHandler.loadCoreClasses(Bootstrapper.class, Constants.CORE_PACKAGE_PATH);
+            classLoaderHandler.removeModClassesFromServiceLayer(Constants.CORE_PACKAGE);
+            *///?}
         }
 
         initConfig();
