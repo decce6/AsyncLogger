@@ -123,8 +123,9 @@ public class LoggerConfigurator {
         if (AsyncLogger.config.noDebugLog) {
             String name = "DebugFile";
             if (loggerConfig.getAppenders().containsKey(name)) {
-                loggerConfig.getAppenders().get(name).stop();
+                var appender = loggerConfig.getAppenders().get(name);
                 loggerConfig.removeAppender(name);
+                appender.stop();
             }
             try {
                 // Attempt to delete the already-generated debug log file
