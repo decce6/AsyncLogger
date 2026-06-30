@@ -182,6 +182,7 @@ publishMods {
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "zvNzKfGF"
+        environment = CLIENT_OR_SERVER_PREFERS_BOTH
         if (hasProperty("minecraft_supported_from")) {
             minecraftVersionRange {
                 start = prop("minecraft_supported_from")
