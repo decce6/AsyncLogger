@@ -134,7 +134,7 @@ public class LoggerConfigurator {
 
             // Delete debug log archives created by crash before AsyncLogger initializes
             // Early crash still produce a debug log, which will archived when another early crash happens
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("logs"), "debug-*.log.gz")) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("logs"), "debug-[1-5].log.gz")) {
                 for (Path file : stream) {
                     Files.delete(file);
                 }
