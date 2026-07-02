@@ -10,6 +10,7 @@ import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.impl.Log4jContextFactory;
 
@@ -71,6 +72,7 @@ public class LoggerConfigurator {
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
 
+        Configurator.reconfigure(configuration.getConfigurationSource().getURI());
         configureRootLogger();
 
         var root = configuration.getRootLogger();
