@@ -1,3 +1,8 @@
+## 2.1.2
+
+- The `noDebugLog` config now cleans up archived debug logs ([#13](https://github.com/decce6/AsyncLogger/pull/13))
+- Fixed the issue where log format may appear different than without mod, like log name missing
+
 ## 2.1.1
 
 Fixed `java.nio.file.FileSystemAlreadyExistsException` crash on startup. ([#12](https://github.com/decce6/AsyncLogger/pull/12))
