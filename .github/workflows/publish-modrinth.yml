@@ -22,6 +22,6 @@ jobs:
         with:
           cache-provider: basic
       - name: Publish Mod to Modrinth
-        run: ./gradlew buildAndCollect publishAllModrinth -P"target_versions=>=1.18.2"
+        run: ./gradlew buildAndCollect publishAllModrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}

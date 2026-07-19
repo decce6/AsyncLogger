@@ -63,7 +63,7 @@ public class RedirectingPrintStream extends WrappedPrintStream {
     }
 
     private void flushBuffer() {
-        if (buffering.get() == 0 && !buffer.isEmpty()) {
+        if (buffering.get() == 0 && buffer.length() > 0) {
             print(buffer.toString());
             buffer.setLength(0);
         }

@@ -9,6 +9,7 @@ import me.decce.transformingbase.constants.Constants;
 import me.decce.transformingbase.service.Bootstrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -35,18 +36,19 @@ public class ForgeTransformationService implements ITransformationService {
 
     @Override
     public void onLoad(IEnvironment env, Set<String> otherServices) throws IncompatibleEnvironmentException {
-
+        //? 1.16.5
+        //ForgeModLocator.inject();
     }
 
     //? if forge {
     /^@Override
     public @NotNull List<ITransformer> transformers() {
-        return List.of();
+        return Collections.emptyList();
     }
     ^///?} else {
     @Override
     public @NotNull List<? extends ITransformer<?>> transformers() {
-        return List.of();
+        return Collections.emptyList();
     }
     //?}
 }

@@ -23,7 +23,8 @@ val javaVersion =
     if (stonecutter.eval(mcVersion, ">=26")) 25
     else if (stonecutter.eval(mcVersion, ">=1.20.5")) 21
     else if (stonecutter.eval(mcVersion, ">=1.18")) 17
-    else 17
+    else 8
+val useJabel = stonecutter.eval(mcVersion, "<1.18")
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
@@ -57,6 +58,23 @@ dependencies {
     }
     else {
         shade("com.lmax:disruptor:3.4.4")
+    }
+}
+
+if (useJabel) {
+    dependencies {
+        annotationProcessor ("com.pkware.jabel:jabel-javac-plugin:1.0.1-2")
+        compileOnly ("com.pkware.jabel:jabel-javac-plugin:1.0.1-2")
+        "serviceAnnotationProcessor" ("com.pkware.jabel:jabel-javac-plugin:1.0.1-2")
+        "serviceCompileOnly" ("com.pkware.jabel:jabel-javac-plugin:1.0.1-2")
+    }
+
+    tasks.named<JavaCompile>("compileJava") {
+        sourceCompatibility = JavaVersion.VERSION_17.toString()
+        options.release = 8
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -81,7 +82,7 @@ public class ClassLoaderHandlerImpl extends ClassLoaderHandler {
     protected Stream<Path> getClassesStream(Class<?> modClass, String path) {
         var modPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
         try {
-            fileSystem = FileSystems.newFileSystem(Path.of(modPath));
+            fileSystem = FileSystems.newFileSystem(Paths.get(modPath), (ClassLoader) null);
             return Files.walk(fileSystem.getPath(path));
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,15 +1,16 @@
 package me.decce.transformingbase.transform;
 
 import me.decce.transformingbase.util.ClassLoaderHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import me.decce.transformingbase.util.ModuleHelper;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class ClassLoaderHandler implements AutoCloseable {
@@ -30,7 +31,7 @@ public abstract class ClassLoaderHandler implements AutoCloseable {
         int counter = 0;
         var throwable = new RuntimeException();
         try (var stream = getClassesStream(modClass, path)) {
-            var classesToLoad = new LinkedList<>(stream.filter(p -> !Files.isDirectory(p) && p.toString().endsWith(".class")).toList());
+            var classesToLoad = new LinkedList<>(stream.filter(p -> !Files.isDirectory(p) && p.toString().endsWith(".class")).collect(Collectors.toList()));
             while (!classesToLoad.isEmpty()) {
                 var clazz = classesToLoad.remove(0);
                 if (loadClass(clazz, throwable)) {
@@ -56,7 +57,7 @@ public abstract class ClassLoaderHandler implements AutoCloseable {
     }
 
     protected Stream<Path> walkResource(URI resource) throws IOException {
-        return Files.walk(Path.of(resource));
+        return Files.walk(Paths.get(resource));
     }
 
     private boolean loadClass(Path path, Throwable throwable) {
@@ -75,13 +76,9 @@ public abstract class ClassLoaderHandler implements AutoCloseable {
         }
     }
 
-    public void expandModuleReads(Module... modules) {
-        try {
-            for (Module module : modules) {
-                ClassLoaderHelper.implAddReadsAllUnnamed(module);
-            }
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
+    public void expandModuleReads(Object... modules) {
+        for (Object module : modules) {
+            ModuleHelper.implAddReadsAllUnnamed(module);
         }
     }
 

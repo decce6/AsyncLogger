@@ -3,6 +3,7 @@ package me.decce.transformingbase.core;
 import me.decce.transformingbase.constants.Constants;
 import me.decce.transformingbase.core.sysout.FilteringPrintStream;
 import me.decce.transformingbase.core.sysout.RedirectingPrintStream;
+import me.decce.transformingbase.util.JavaHelper;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Appender;
@@ -19,6 +20,8 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +69,8 @@ public class LoggerConfigurator {
         configureRootLogger();
         var configuration = LoggerContext.getContext(false).getConfiguration();
         var originalRoot = configuration.getRootLogger();
-        var originalAppenders = Map.copyOf(originalRoot.getAppenders());
-        var originalAppenderRefs = List.copyOf(originalRoot.getAppenderRefs());
+        var originalAppenders = copyMap(originalRoot.getAppenders());
+        var originalAppenderRefs = copyList(originalRoot.getAppenderRefs());
 
         var selector = new BasicAsyncLoggerContextSelector();
         LogManager.setFactory(new Log4jContextFactory(selector));
@@ -113,6 +116,18 @@ public class LoggerConfigurator {
                 }
             }
         }
+    }
+
+    public static <T> List<T> copyList(List<T> list) {
+        var newList = new ArrayList<T>(list.size());
+        newList.addAll(list);
+        return newList;
+    }
+
+    public static <K, V> Map<K, V> copyMap(Map<K, V> map) {
+        var newMap = new HashMap<K, V>(map.size());
+        newMap.putAll(map);
+        return newMap;
     }
 
     private static void configureRootLogger() {

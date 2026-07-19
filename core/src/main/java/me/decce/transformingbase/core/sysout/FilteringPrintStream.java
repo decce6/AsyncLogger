@@ -2,9 +2,9 @@ package me.decce.transformingbase.core.sysout;
 
 import me.decce.transformingbase.core.FilterImpl;
 import me.decce.transformingbase.core.FilteringInfo;
+import me.decce.transformingbase.util.JavaHelper;
 import org.apache.logging.log4j.Level;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class FilteringPrintStream extends WrappedPrintStream {
@@ -13,7 +13,7 @@ public class FilteringPrintStream extends WrappedPrintStream {
     private final Level level;
 
     public FilteringPrintStream(PrintStream original, FilteringInfo info, Level level) {
-        super(OutputStream.nullOutputStream());
+        super(JavaHelper.nullOutputStream());
         this.original = original;
         this.level = level;
         this.filter = new FilterImpl(info);

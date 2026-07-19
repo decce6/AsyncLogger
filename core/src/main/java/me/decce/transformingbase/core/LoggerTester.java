@@ -1,9 +1,11 @@
 package me.decce.transformingbase.core;
 
+import com.github.bsideup.jabel.Desugar;
 import me.decce.transformingbase.constants.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class LoggerTester {
@@ -11,7 +13,7 @@ public class LoggerTester {
         var logger = LogManager.getLogger("Test Logger");
         warmup(logger);
         logger.info("Starting Test");
-        return List.of(testString(logger), testPlaceholder(logger), testThrowable(logger));
+        return Arrays.asList(testString(logger), testPlaceholder(logger), testThrowable(logger));
     }
 
     private static void warmup(Logger logger) {
@@ -76,6 +78,7 @@ public class LoggerTester {
         }
     }
 
+    @Desugar
     public record Result(Item item, long elapsedNanos) {
         public String elapsedTimeInMs() {
             return String.format("%.1f", elapsedNanos * 1d / 1_000_000d);

@@ -15,6 +15,7 @@ val modSourceSet = sourceSets["mod-src"]
 
 // Need to shadow MixinExtras in <1.18.2
 val jijMixinExtras = stonecutter.eval(stonecutter.current.version, ">=1.18.2")
+val shadeModjar = stonecutter.eval(stonecutter.current.version, "<=1.16.5")
 
 dependencies {
     minecraft("com.mojang:minecraft:${prop("deps.minecraft")}")
@@ -37,9 +38,9 @@ val modJar = tasks.register<ShadowJar>("modJar") {
     archiveFileName = "$modid-forge-mod.jar"
     relocate("me.decce.transformingbase", "me.decce.$modid")
     manifest.attributes (
-        "Automatic-Module-Name" to "me.decce.$modid"
+        "Automatic-Module-Name" to "me.decce.$modid",
+        "MixinConfigs" to "$modid.mixins.json"
     )
-
 }
 
 tasks {
@@ -49,18 +50,20 @@ tasks {
 
     named<ShadowJar>("shadowJar") {
         if (!jijMixinExtras) {
-            relocate("com.llamalad7.mixinextras", "me.decce.$modid)}.shadow.mixinextras")
+            relocate("com.llamalad7.mixinextras", "me.decce.$modid.shadow.mixinextras")
         }
-        from(files(modJar))
+        if (shadeModjar) {
+            from(modSourceSet.output)
+        }
+        else {
+            from(files(modJar))
+        }
     }
 
     named<RemapJarTask>("remapJar") {
         dependsOn(shadowJar)
         inputFile = shadowJar.flatMap { it.archiveFile }
         archiveClassifier = ""
-        manifest.attributes (
-            "MixinConfigs" to "$modid.mixins.json"
-        )
     }
 
     register<Copy>("buildAndCollect") {

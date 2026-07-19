@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal", "unused"})
@@ -44,16 +45,16 @@ public class AsyncLoggerConfig {
     @Comment("Note: you can also add filters in `config/asynclogger/*.toml`. That way you can freely add comments and format them as you wish.\n" +
             "The specified logging levels will be filtered out and not logged. Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL")
     @Key("filtering.levels")
-    public List<String> levels = List.of();
+    public List<String> levels = Collections.emptyList();
     @Comment("Messages logged by loggers with the specified names will be filtered out and not logged.")
     @Key("filtering.loggers")
-    public List<String> loggers = List.of();
+    public List<String> loggers = Collections.emptyList();
     @Comment("Messages containing the specified substrings will be filtered out and not logged.")
     @Key("filtering.strings")
-    public List<String> strings = List.of();
+    public List<String> strings = Collections.emptyList();
     @Comment("Messages that match the specified regexes will be filtered out and not logged.")
     @Key("filtering.regexes")
-    public List<String> regexes = List.of();
+    public List<String> regexes = Collections.emptyList();
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)

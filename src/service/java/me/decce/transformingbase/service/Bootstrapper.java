@@ -4,6 +4,7 @@ import me.decce.transformingbase.constants.Constants;
 import me.decce.transformingbase.core.AsyncLogger;
 import me.decce.transformingbase.core.LoggerConfigurator;
 import me.decce.transformingbase.util.ClassLoaderHelper;
+import me.decce.transformingbase.util.ModuleHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,7 @@ public class Bootstrapper {
 
         try (var classLoaderHandler = new ClassLoaderHandlerImpl(Logger.class.getClassLoader(), Bootstrapper.class.getClassLoader())) {
             //? if !fabric {
-            /*classLoaderHandler.expandModuleReads(Logger.class.getModule(), org.apache.logging.log4j.core.Logger.class.getModule());
+            /*classLoaderHandler.expandModuleReads(ModuleHelper.getModuleOfClass(Logger.class), ModuleHelper.getModuleOfClass(org.apache.logging.log4j.core.Logger.class));
             if (ClassLoaderHelper.isClassLoaded(classLoaderHandler.targetClassLoader, "com.lmax.disruptor.RingBuffer")) {
                 skippedDisruptorLoading = true;
             } else {

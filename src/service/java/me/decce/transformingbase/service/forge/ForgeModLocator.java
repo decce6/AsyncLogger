@@ -3,6 +3,7 @@ package me.decce.transformingbase.service.forge;
 //? if forge {
 /*//? if <=1.18.2 {
 /^import me.decce.transformingbase.constants.Constants;
+import net.minecraftforge.fml.loading.ModDirTransformerDiscoverer;
 import net.minecraftforge.forgespi.locating.IModFile;
 
 import java.io.IOException;
@@ -40,7 +41,8 @@ public class ForgeModLocator extends AbstractJarFileLocator {
             //? 1.18.2 {
             /^¹mods.add(createMod(getJarInJar()).get());
             ¹^///?} else {
-            var modFile = new ModFile(getJarInJar(), this, ModFileParser::modsTomlParser);
+            var jarPath = getJarPath();
+            var modFile = new ModFile(jarPath, this, ModFileParser::modsTomlParser);
             this.modJars.put(modFile, createFileSystem(modFile));
             mods.add(modFile);
              //?}
@@ -53,11 +55,28 @@ public class ForgeModLocator extends AbstractJarFileLocator {
     public Path getJarInJar() throws IOException, URISyntaxException {
         // From dev.kostromdan.mods.crash_assistant.common_config.loading_utils.JarInJarHelper
         //Idea taken from org.sinytra.connector.locator.EmbeddedDependencies#getJarInJar
-        Path pathInModFile = Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).resolve(Constants.FORGE_JIJ_NAME);
+        Path modPath = Paths.get(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+        Path pathInModFile = modPath.resolve(Constants.FORGE_JIJ_NAME);
         URI filePathUri = new URI("jij:" + pathInModFile.toAbsolutePath().toUri().getRawSchemeSpecificPart()).normalize();
         Map<String, Path> outerFsArgs = Collections.singletonMap("packagePath", pathInModFile);
         FileSystem zipFS = FileSystems.newFileSystem(filePathUri, outerFsArgs);
         return zipFS.getPath("/");
+    }
+
+    public static Path getJarPath() throws URISyntaxException {
+        return Paths.get(ForgeModLocator.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+    }
+
+    public static void inject() {
+        try {
+            var modPath = getJarPath();
+            if (!ModDirTransformerDiscoverer.getExtraLocators().contains(modPath)) {
+                ModDirTransformerDiscoverer.getExtraLocators().add(modPath);
+            }
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
