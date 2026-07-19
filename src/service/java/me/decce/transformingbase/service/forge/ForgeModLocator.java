@@ -67,7 +67,8 @@ public class ForgeModLocator extends AbstractJarFileLocator {
         return Paths.get(ForgeModLocator.class.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
-    public static void inject() {
+    //? <=1.16.5 {
+    /^¹public static void inject() {
         try {
             var modPath = getJarPath();
             if (!ModDirTransformerDiscoverer.getExtraLocators().contains(modPath)) {
@@ -76,8 +77,8 @@ public class ForgeModLocator extends AbstractJarFileLocator {
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-
     }
+    ¹^///? }
 
     @Override
     public String name() {

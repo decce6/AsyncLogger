@@ -69,7 +69,7 @@ if (useJabel) {
         "serviceCompileOnly" ("com.pkware.jabel:jabel-javac-plugin:1.0.1-2")
     }
 
-    tasks.named<JavaCompile>("compileJava") {
+    tasks.withType<JavaCompile> {
         sourceCompatibility = JavaVersion.VERSION_17.toString()
         options.release = 8
         javaCompiler = javaToolchains.compilerFor {

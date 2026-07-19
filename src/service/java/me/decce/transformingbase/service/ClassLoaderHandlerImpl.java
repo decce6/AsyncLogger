@@ -4,7 +4,6 @@ import me.decce.transformingbase.constants.Constants;
 import me.decce.transformingbase.transform.ClassLoaderHandler;
 
 import java.io.IOException;
-import java.lang.module.ResolvedModule;
 import java.net.URI;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -19,6 +18,9 @@ import static me.decce.transformingbase.util.ReflectionHelper.unreflectGetter;
 //? forge && <=1.16.5 {
 /*import net.minecraftforge.fml.loading.FMLLoader;
 *///?}
+//? neoforge || (forge && >=1.18.2) {
+/*import java.lang.module.ResolvedModule;
+*///? }
 
 public class ClassLoaderHandlerImpl extends ClassLoaderHandler {
     public ClassLoaderHandlerImpl(ClassLoader targetClassLoader, ClassLoader modClassLoader) {
