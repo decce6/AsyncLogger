@@ -36,7 +36,7 @@ public class LoggerConfigurator {
         else if (config.ringBufferSize == 0) {
             // When testing performance we're printing a large volume in a very short period, which almost never happens in actual gameplay
             // We need to specify a large enough buffer size to avoid throtting.
-            System.setProperty("log4j2.asyncLoggerRingBufferSize", String.valueOf(config.testPerformance ? 256 * 1024 : 8 * 1024));
+            System.setProperty("log4j2.asyncLoggerRingBufferSize", String.valueOf(16 * 1024)); // takes around 2MB of memory
         }
         if (!config.waitStrategy.isEmpty()) {
             System.setProperty("log4j2.asyncLoggerWaitStrategy", config.waitStrategy);

@@ -33,6 +33,7 @@ public class LoggerTester {
         long nano1 = System.nanoTime();
         for (int i = 0; i < Item.STRING.count; i++) {
             logger.info("AsyncLogger Test Message");
+            Thread.yield();
         }
         long nano2 = System.nanoTime();
         return new Result(Item.STRING, nano2 - nano1);
@@ -43,6 +44,7 @@ public class LoggerTester {
         long nano1 = System.nanoTime();
         for (int i = 0; i < Item.PLACEHOLDER.count; i++) {
             logger.info("{} Message with Placeholder {}", Constants.MOD_NAME, i);
+            Thread.yield();
         }
         long nano2 = System.nanoTime();
         return new Result(Item.PLACEHOLDER, nano2 - nano1);
@@ -54,6 +56,7 @@ public class LoggerTester {
         var throwable = new TestThrowable();
         for (int i = 0; i < Item.THROWABLE.count; i++) {
             logger.info("Message with Throwable", throwable);
+            Thread.yield();
         }
         long nano2 = System.nanoTime();
         return new Result(Item.THROWABLE, nano2 - nano1);
