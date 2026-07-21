@@ -10,7 +10,7 @@ stonecutter parameters {
         str = "legacyforge"
     }
     constants.match(str, "fabric", "neoforge", "forge", "legacyforge")
-    swaps["mod_version_short"] = "\"" + property("mod_version") + "\";"
+    swaps["mod_version_short"] = "\"" + property("mod_version") + "\""
 }
 
 tasks.register("publishAll") {

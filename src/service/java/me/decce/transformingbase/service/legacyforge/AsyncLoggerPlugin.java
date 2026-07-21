@@ -1,13 +1,14 @@
 package me.decce.transformingbase.service.legacyforge;
 
 //? legacyforge {
-/*import me.decce.transformingbase.service.Bootstrapper;
+/*import me.decce.transformingbase.constants.Constants;
+import me.decce.transformingbase.service.Bootstrapper;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.common.ForgeVersion;
 
 import java.util.Map;
 
-@IFMLLoadingPlugin.Name("Gnetum")
+@IFMLLoadingPlugin.Name(Constants.MOD_ID)
 @IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
 public class AsyncLoggerPlugin implements IFMLLoadingPlugin {
     public AsyncLoggerPlugin() {

@@ -8,8 +8,8 @@ import org.apache.logging.log4j.LogManager;
 
 @Mod(modid = Constants.MOD_ID,
         name = Constants.MOD_NAME,
-        version = Constants.MOD_VERSION_SHORT,
-        acceptableRemoteVersions = "*")
+        version = /^$ mod_version_short^/"2.2.0"
+        , acceptableRemoteVersions = "*")
 public class LegacyForgeEntrypoint {
     public LegacyForgeEntrypoint() {
         AsyncLoggerMod.init();
