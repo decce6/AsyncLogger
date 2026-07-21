@@ -1,3 +1,8 @@
+## 2.2.0
+
+- Backported to 1.16.5 and 1.12.2
+- Improved default ring buffer size
+
 ## 2.1.2
 
 - The `noDebugLog` config now cleans up archived debug logs ([#13](https://github.com/decce6/AsyncLogger/pull/13))
