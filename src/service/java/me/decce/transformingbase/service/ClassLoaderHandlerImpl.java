@@ -10,14 +10,12 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import static me.decce.transformingbase.util.ReflectionHelper.unreflectGetter;
 
-//? forge && <=1.16.5 {
-/*import net.minecraftforge.fml.loading.FMLLoader;
-*///?}
 //? neoforge || (forge && >=1.18.2) {
 /*import java.lang.module.ResolvedModule;
 *///? }
@@ -102,13 +100,13 @@ public class ClassLoaderHandlerImpl extends ClassLoaderHandler {
     }
     *///?}
 
-    //? if (neoforge && >=1.21.9) || fabric {
+    //? if (neoforge && >=1.21.9) || fabric || legacyforge {
     private FileSystem fileSystem;
 
     @Override
     protected Stream<Path> walkResource(URI resource) throws IOException {
         var s = resource.toString().split("!");
-        fileSystem = FileSystems.newFileSystem(URI.create(s[0]), Map.of());
+        fileSystem = FileSystems.newFileSystem(URI.create(s[0]), Collections.emptyMap());
         var path = fileSystem.getPath(s[1]);
         return Files.walk(path);
     }

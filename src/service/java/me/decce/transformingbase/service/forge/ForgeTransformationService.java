@@ -22,17 +22,17 @@ public class ForgeTransformationService implements ITransformationService {
     @Override
     public void initialize(IEnvironment environment) {
     //? if forge {
-        /^// Required when earlyWindowControl is disabled
+        // Required when earlyWindowControl is disabled
         Bootstrapper.bootstrap();
-    ^///?}
+    //?}
     }
 
     //? <=1.16.5 {
-    /^@Override
+    @Override
     public void beginScanning(IEnvironment environment) {
 
     }
-    ^///?}
+    //?}
 
     @Override
     public void onLoad(IEnvironment env, Set<String> otherServices) throws IncompatibleEnvironmentException {
@@ -41,15 +41,15 @@ public class ForgeTransformationService implements ITransformationService {
     }
 
     //? if forge {
-    /^@Override
+    @Override
     public @NotNull List<ITransformer> transformers() {
         return Collections.emptyList();
     }
-    ^///?} else {
-    @Override
+    //?} else {
+    /^@Override
     public @NotNull List<? extends ITransformer<?>> transformers() {
         return Collections.emptyList();
     }
-    //?}
+    ^///?}
 }
 *///?}

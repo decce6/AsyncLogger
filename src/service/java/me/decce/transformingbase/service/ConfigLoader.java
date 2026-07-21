@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +43,7 @@ public class ConfigLoader {
             }
             if (!Files.exists(CONFIG_EXTRA_PATH)) {
                 Files.createDirectories(CONFIG_EXTRA_PATH);
-                Files.writeString(CONFIG_EXTRA_PATH.resolve("default.toml"), DEFAULT_EXTRA_CONFIG, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+                Files.write(CONFIG_EXTRA_PATH.resolve("default.toml"), DEFAULT_EXTRA_CONFIG.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
             }
         } catch (IOException ignored) {}
     }

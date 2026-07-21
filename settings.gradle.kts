@@ -23,6 +23,7 @@ pluginManagement {
         maven("https://maven.kikugie.dev/releases")
         maven("https://maven.architectury.dev/")
         exclusiveMaven("Sponge", "org.spongepowered", "https://repo.spongepowered.org/repository/maven-public")
+        exclusiveMaven("wagyourtail", "xyz.wagyourtail", "https://maven.wagyourtail.xyz/releases")
     }
 }
 
@@ -80,11 +81,15 @@ stonecutter {
         fun forge(versions: Iterable<String>) {
             optionallyInclude("forge", "archloom", versions)
         }
+        fun legacyForge(versions: Iterable<String>) {
+            optionallyInclude("forge", "unimined", versions)
+        }
         
         fabricUnobfuscated (listOf("26.1"))
         fabric (listOf("1.21.11", "1.20.1", "1.16.5"))
         neoforge (listOf("26.1", "1.21.11", "1.21.1"))
         forge (listOf("1.20.1", "1.19.2", "1.18.2", "1.16.5"))
+        legacyForge (listOf("1.12.2"))
 
         // This is the default target.
         // https://stonecutter.kikugie.dev/stonecutter/guide/setup#settings-settings-gradle-kts

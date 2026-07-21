@@ -5,7 +5,12 @@ plugins {
 stonecutter active "1.21.11-fabric"
 
 stonecutter parameters {
-    constants.match(node.metadata.project.substringAfterLast('-'), "fabric", "neoforge", "forge")
+    var str = node.metadata.project.substringAfterLast('-');
+    if (str == "forge" && stonecutter.eval(node.metadata.version, "<=1.12.2")) {
+        str = "legacyforge"
+    }
+    constants.match(str, "fabric", "neoforge", "forge", "legacyforge")
+    swaps["mod_version_short"] = "\"" + property("mod_version") + "\";"
 }
 
 tasks.register("publishAll") {

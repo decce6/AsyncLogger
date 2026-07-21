@@ -24,11 +24,6 @@ repositories {
 val shade = configurations.create("shade")
 configurations.implementation.get().extendsFrom(shade)
 
-sourceSets.create("java17") {
-    java.srcDir("src/main/java17")
-    compileClasspath += sourceSets["main"].output
-}
-
 dependencies {
     shade ("net.lenni0451.classtransform:core:1.15.0-SNAPSHOT") {
         isTransitive = false
@@ -57,19 +52,8 @@ tasks {
         options.release = 8
     }
 
-    named<JavaCompile>("compileJava17Java") {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        options.release = 17
-    }
-
     named<Jar>("jar") {
         archiveClassifier = "slim"
-        manifest {
-            attributes("Multi-Release" to "true")
-        }
-        from(sourceSets.getByName("java17").output) {
-            into("META-INF/versions/17")
-        }
     }
 
     named<ShadowJar>("shadowJar") {

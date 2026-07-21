@@ -1,0 +1,11 @@
+[{
+	"modid": "${modid}",
+	"name": "${mod_name}",
+	"version": "${mod_version_full}",
+	"mcversion": "1.12.2",
+	"description": "${mod_description}",
+	"authorList": ["decce"],
+	"credits": "Asbestosstar, Aresky",
+	"url": "https://modrinth.com/mod/${modid}",
+	"logoFile": "${modid}.png"
+}]

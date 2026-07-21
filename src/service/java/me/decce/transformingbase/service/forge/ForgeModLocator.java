@@ -68,7 +68,7 @@ public class ForgeModLocator extends AbstractJarFileLocator {
     }
 
     //? <=1.16.5 {
-    /^¹public static void inject() {
+    public static void inject() {
         try {
             var modPath = getJarPath();
             if (!ModDirTransformerDiscoverer.getExtraLocators().contains(modPath)) {
@@ -78,7 +78,7 @@ public class ForgeModLocator extends AbstractJarFileLocator {
             throw new RuntimeException(e);
         }
     }
-    ¹^///? }
+    //? }
 
     @Override
     public String name() {
@@ -90,8 +90,7 @@ public class ForgeModLocator extends AbstractJarFileLocator {
 
     }
 }
-^///?} else {
-
+^///?} else >=1.16.5 {
 import me.decce.transformingbase.constants.Constants;
 import net.minecraftforge.forgespi.locating.IModFile;
 import net.minecraftforge.forgespi.locating.IModLocator;

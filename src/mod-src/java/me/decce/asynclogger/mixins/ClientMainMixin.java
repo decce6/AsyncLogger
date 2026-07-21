@@ -1,5 +1,6 @@
 package me.decce.asynclogger.mixins;
 
+//? >1.12.2 {
 import me.decce.transformingbase.core.LoggerConfigurator;
 import net.minecraft.client.main.Main;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,3 +19,4 @@ public class ClientMainMixin {
     }
     *///?}
 }
+//? }

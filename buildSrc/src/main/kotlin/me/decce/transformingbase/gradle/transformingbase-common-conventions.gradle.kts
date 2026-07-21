@@ -151,7 +151,8 @@ tasks {
     withType<ProcessResources> {
         if (platform != "fabric") exclude("**/fabric.mod.json")
         if (platform != "neoforge") exclude("**/neoforge.mods.toml")
-        if (platform != "forge") exclude("**/mods.toml", "**/pack.mcmeta")
+        if (platform != "forge" || stonecutter.eval(mcVersion, "<=1.12.2")) exclude("**/mods.toml", "**/pack.mcmeta")
+        if (platform != "forge" || stonecutter.eval(mcVersion, ">1.12.2")) exclude("**/mcmod.info")
         val propMap = mutableMapOf<String, Any>().apply {
             project.properties.forEach { k, v -> put(k.toString(), v.toString()) }
             put("mod_version_full", fullModVersion())
@@ -160,7 +161,7 @@ tasks {
             put("java_version", javaVersion)
         }
         inputs.property("propMap", propMap)
-        filesMatching(listOf("**/fabric.mod.json", "**/neoforge.mods.toml", "**/mods.toml", "**/pack.mcmeta")) {
+        filesMatching(listOf("**/fabric.mod.json", "**/neoforge.mods.toml", "**/mods.toml", "**/pack.mcmeta", "**/mcmod.info")) {
             expand(propMap)
         }
     }

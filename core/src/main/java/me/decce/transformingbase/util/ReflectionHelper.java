@@ -21,6 +21,18 @@ public class ReflectionHelper {
         }
     }
 
+    public static MethodHandle unreflectOrNull(UncheckedSupplier<Method, ?> method) {
+        try {
+            var instance = method.get();
+            if (instance == null) {
+                return null;
+            }
+            return ImplLookupAccessor.LOOKUP.unreflect(instance);
+        } catch (Throwable e) {
+            return null;
+        }
+    }
+
     public static MethodHandle unreflectGetter(UncheckedSupplier<Field, ?> field) {
         try {
             return ImplLookupAccessor.LOOKUP.unreflectGetter(field.get());
