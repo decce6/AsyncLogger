@@ -68,7 +68,7 @@ public class ForgeModLocator extends AbstractJarFileLocator {
     }
 
     //? <=1.16.5 {
-    public static void inject() {
+    /^¹public static void inject() {
         try {
             var modPath = getJarPath();
             if (!ModDirTransformerDiscoverer.getExtraLocators().contains(modPath)) {
@@ -78,7 +78,7 @@ public class ForgeModLocator extends AbstractJarFileLocator {
             throw new RuntimeException(e);
         }
     }
-    //? }
+    ¹^///? }
 
     @Override
     public String name() {
