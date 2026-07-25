@@ -5,6 +5,7 @@ import me.decce.transformingbase.transform.ClassLoaderHandler;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -80,11 +81,11 @@ public class ClassLoaderHandlerImpl extends ClassLoaderHandler {
 
     @Override
     protected Stream<Path> getClassesStream(Class<?> modClass, String path) {
-        var modPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
         try {
+            var modPath = this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
             fileSystem = FileSystems.newFileSystem(Paths.get(modPath), (ClassLoader) null);
             return Files.walk(fileSystem.getPath(path));
-        } catch (IOException e) {
+        } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
     }
