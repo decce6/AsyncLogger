@@ -1,3 +1,7 @@
+## 2.2.1
+
+- Fixed game crash at startup when path contains special character
+
 ## 2.2.0
 
 - Backported to 1.16.5 and 1.12.2
