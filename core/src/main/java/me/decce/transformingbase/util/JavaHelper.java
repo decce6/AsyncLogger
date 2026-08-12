@@ -1,16 +1,8 @@
 package me.decce.transformingbase.util;
 
-import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 
 public class JavaHelper {
-    public static OutputStream nullOutputStream() {
-        return new OutputStream() {
-            @Override
-            public void write(int b) {}
-        };
-    }
-
     public static int major() {
         try {
             var versionMethod = Runtime.class.getMethod("version"); // since Java 9
