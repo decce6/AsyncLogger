@@ -1,3 +1,8 @@
+## 2.2.2
+
+- Fixed game crash when `filtering.sysout` is set to `true`
+- Added Ornithe support (independent of Minecraft version)
+
 ## 2.2.1
 
 - Fixed game crash at startup when path contains special character
