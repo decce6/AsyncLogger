@@ -9,6 +9,9 @@ stonecutter parameters {
     if (str == "forge" && stonecutter.eval(node.metadata.version, "<=1.12.2")) {
         str = "legacyforge"
     }
+    if (str == "ornithe") {
+        str = "fabric"
+    }
     constants.match(str, "fabric", "neoforge", "forge", "legacyforge")
     swaps["mod_version_short"] = "\"" + property("mod_version") + "\""
 }

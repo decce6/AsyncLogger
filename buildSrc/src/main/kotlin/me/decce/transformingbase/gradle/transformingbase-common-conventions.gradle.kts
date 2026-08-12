@@ -149,7 +149,7 @@ tasks {
     }
 
     withType<ProcessResources> {
-        if (platform != "fabric") exclude("**/fabric.mod.json")
+        if (platform != "fabric" && platform != "ornithe") exclude("**/fabric.mod.json")
         if (platform != "neoforge") exclude("**/neoforge.mods.toml")
         if (platform != "forge" || stonecutter.eval(mcVersion, "<=1.12.2")) exclude("**/mods.toml", "**/pack.mcmeta")
         if (platform != "forge" || stonecutter.eval(mcVersion, ">1.12.2")) exclude("**/mcmod.info")
@@ -177,7 +177,6 @@ publishMods {
     dryRun = providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null || providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
     changelog = fetchLatestChangelog()
     displayName = "${prop("mod_name")} ${fullModVersion()}"
-    modLoaders.add(prop("deps.platform"))
     if (prop("deps.platform") == "fabric") {
         modLoaders.add("quilt")
     }
@@ -187,6 +186,7 @@ publishMods {
         server = true
         projectId = "1491426"
         projectSlug = modid
+        modLoaders.add(prop("deps.platform").replace("ornithe", "fabric"))
         if (hasProperty("minecraft_supported_from")) {
             minecraftVersionRange {
                 start = prop("minecraft_supported_from")
@@ -202,6 +202,7 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "zvNzKfGF"
         environment = CLIENT_OR_SERVER_PREFERS_BOTH
+        modLoaders.add(prop("deps.platform"))
         if (hasProperty("minecraft_supported_from")) {
             minecraftVersionRange {
                 start = prop("minecraft_supported_from")
