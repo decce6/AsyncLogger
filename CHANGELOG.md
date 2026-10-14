@@ -1,3 +1,8 @@
+## 2.2.3
+
+- Implemented `EarlyBootstrapper` for 26.3 NeoForge compatibility
+- Fixed Mixin compatibility level
+
 ## 2.2.2
 
 - Fixed game crash when `filtering.sysout` is set to `true`
